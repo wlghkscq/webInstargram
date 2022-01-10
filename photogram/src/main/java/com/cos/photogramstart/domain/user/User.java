@@ -32,7 +32,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 번호증가 전략이 사용하는 데이터베이스를 따라간다. 
 	private int id;
 	
-	@Column(length = 20, unique = true)
+	@Column(length = 100, unique = true) // OAuth2 로그인을 위해 length 크기(20->100) 늘리기 
 	private String username;
 	
 	@Column(nullable = false)
@@ -68,6 +68,14 @@ public class User {
 	@PrePersist // 디비에 INSERT 되기 직전에 실행 
 	public void createDate() {
 		this.createDate = LocalDateTime.now();
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", name=" + name + ", website="
+				+ website + ", bio=" + bio + ", email=" + email + ", phone=" + phone + ", gender=" + gender
+				+ ", profileImageUrl=" + profileImageUrl + ", role=" + role +", createDate="
+				+ createDate + "]";
 	}
 	
 }

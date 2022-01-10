@@ -7,10 +7,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.cos.photogramstart.config.oauth.OAuth2DetailsService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @EnableWebSecurity // 해당 파일로 시큐리티 활성화 
 @Configuration //IoC    
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	private final OAuth2DetailsService oAuth2DetailsService;
+	
 	
 	@Bean
 	public BCryptPasswordEncoder encode() {
@@ -28,6 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.formLogin() 
 			.loginPage("/auth/signin") // 인증이 필요한 anyMatchers 의 주소로 요청하면 /auth/signin(GET)으로 보내겠다 
 			.loginProcessingUrl("/auth/signin") // POST -> 스프링시큐리티가 로그인 프로세스 PrincipalDetailsService에서 진행 
-			.defaultSuccessUrl("/"); // 성공적으로 signin(로그인)하면 "/" 주소로 보내겠다 
+			.defaultSuccessUrl("/")
+			.and()
+			.oauth2Login() // form 로그인도 하고, oauth2 로그인도 할거야
+			.userInfoEndpoint() // oauth2 로그인을 하면 최종응답을 회원정보로 바로 받게해줘
+			.userService(oAuth2DetailsService); // 
 	}
 }

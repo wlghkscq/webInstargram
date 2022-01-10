@@ -1,7 +1,7 @@
 // (1) 회원정보 수정
 function update(userId, event) {
 	event.preventDefault(); // 폼태크 액션 막기 
-	let data = $("#profileUpdate").serialize(); // jsp파일에 태그 id값이(#)  profileUpdate 인 태그안에 모든 값을 가져온다. 
+	let data = $("#profileUpdate").serialize(); // jsp파일에 태그 id값이(#)  profileUpdate 인 태그안에 모든 key=value값을 가져온다. 
 	
 	console.log(data);
 	
